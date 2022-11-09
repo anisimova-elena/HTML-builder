@@ -1,6 +1,10 @@
 const path = require('path');
 const fsPromises = require('fs/promises');
 
+const projectPath = path.join(__dirname, 'project-dist');
+const componentsPath = path.join(__dirname, 'components');
+const assetsPath = path.join(__dirname, 'assets');
+
 build();
 
 async function build() {
@@ -8,10 +12,7 @@ async function build() {
 
   const components = await fsPromises.readdir(path.join(__dirname, 'components'), { encoding: 'utf8' });
 
-  const projectPath = path.join(__dirname, 'project-dist');
-  const componentsPath = path.join(__dirname, 'components');
-  const assetsPath = path.join(__dirname, 'assets');
-
+  await fsPromises.rm(projectPath, { force: true, recursive: true });
   await fsPromises.mkdir(projectPath, { recursive: true });
 
   for (let item of components) {
